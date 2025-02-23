@@ -2,14 +2,14 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import './App.css'
 interface Patient {
-  resourceType: "Patient";
-  id: string;
-  name?: {
-    given?: string[];
-    family?: string;
-  }[];
-  birthDate?: string;
-  gender?: string;
+    resourceType: "Patient";
+    id: string;
+    name?: {
+        given?: string[];
+        family?: string;
+    }[];
+    birthDate?: string;
+    gender?: string;
 }
 
 interface ConditionEntry {
@@ -35,8 +35,8 @@ function App() {
     useEffect(() => {
         axios.get("http://localhost:5010/api/patient")
             .then(res => {
-              setPatient(res.data)
-              console.log(res.data)
+                setPatient(res.data)
+                console.log(res.data)
             })
             .catch(err => console.error("Error fetching patient", err));
 
@@ -46,10 +46,10 @@ function App() {
     }, []);
 
     const getPatientName = () => {
-      if (patient !== null){
-        return patient.name?.[0]?.given + " " + patient.name?.[0]?.family
-      }
-      return "N/A"
+        if (patient !== null) {
+            return patient.name?.[0]?.given + " " + patient.name?.[0]?.family
+        }
+        return "N/A"
     }
     return (
         <div className="mediWord items-start">
@@ -57,13 +57,19 @@ function App() {
 
             {patient ? (
                 <div>
-                    <h2>Patient Details</h2>
+                    <div>
+                        <h2>Patient Details</h2>
+                        <div className="shadow-xl opacity-75 text-white bg-black ml-5px p-5px scale-2">
+                            <button>Refresh</button>
+                        </div>
+                    </div>
+
                     <p><strong>Name:</strong> {getPatientName()}</p>
                     <p><strong>Gender:</strong> {patient.gender || "Unknown"}</p>
                     <p><strong>Birth Date:</strong> {patient.birthDate || "Unknown"}</p>
                 </div>
             ) : (
-                <p>Loading patient data...</p>
+                <p>Loading patient data... Please clicke here to refresh if the web is not responding.</p>
             )}
 
             <h2>Conditions</h2>
